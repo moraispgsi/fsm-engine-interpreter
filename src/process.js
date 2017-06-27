@@ -19,9 +19,8 @@ process.on('message', function(message) {
 emitter.on("init", (message) => {
     if(context.interpreter) {
         process.send({
-            action: "initACK",
-            status: 500,
-            message: "Interpreter was already initialized."
+            action: "response",
+            error: "Interpreter was already initialized"
         });
         return;
     }
@@ -34,15 +33,14 @@ emitter.on("init", (message) => {
         debug("Created the interpreter");
 
         process.send({
-            action: "initACK",
-            status: 200
+            action: "response",
+            message: "successful"
         });
 
     } catch (err) {
         process.send({
-            action: "initNACK",
-            status: 500,
-            message: err
+            action: "response",
+            error: err
         });
     }
 });
@@ -50,16 +48,15 @@ emitter.on("init", (message) => {
 emitter.on("start", (message) => {
     if(!context.interpreter){
         process.send({
-            action: "startNACK",
-            status: 500,
-            message: "Interpreter was not initialized. Please use the action init"
+            action: "response",
+            error: "Interpreter was not initialized. Please use the action init"
         });
         return;
     }
     context.interpreter.start().then(()=>{
         process.send({
-            action: "startACK",
-            status: 200
+            action: "response",
+            message: "successful"
         });
     });
 });
@@ -67,18 +64,16 @@ emitter.on("start", (message) => {
 emitter.on("event", (message) => {
     if(!context.interpreter){
         process.send({
-            action: "eventNACK",
-            status: 500,
-            message: "Interpreter is was not initialized. Please use the action init"
+            action: "response",
+            error: "Interpreter is was not initialized. Please use the action init"
         });
         return;
     }
 
     if(!context.interpreter.hasStarted) {
         process.send({
-            action: "eventNACK",
-            status: 500,
-            message: "Interpreter hasn't started yet. Please use the action start first"
+            action: "response",
+            message: "successful"
         });
         return;
     }
@@ -86,8 +81,8 @@ emitter.on("event", (message) => {
     context.interpreter.sendEvent(message.data);
 
     process.send({
-        action: "eventACK",
-        status: 200,
-        message: "Event was sent"
+        action: "response",
+        message: "successful"
     });
 });
+

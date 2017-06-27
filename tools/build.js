@@ -41,7 +41,7 @@ let includePathOptions = {
         })),
             includePaths(includePathOptions)],
     }).then(bundle => bundle.write({
-        dest: `dist/${format === 'cjs' ? 'interpreterProcess' : `interpreterProcess.${format}`}.js`,
+        dest: `dist/${format === 'cjs' ? 'index' : `index.${format}`}.js`,
         format,
         sourceMap: true,
         moduleName: format === 'umd' ? pkg.name : undefined,

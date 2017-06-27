@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "fsm-engine-interpreter",
-  "version": "0.0.5",
+  "version": "0.0.2",
   "description": "",
   "repository": "moraispgsi/fsm-engine",
   "author": "Ricardo Morais <moraispgsi@gmail.com> (https://www.INSTICC.org)",
