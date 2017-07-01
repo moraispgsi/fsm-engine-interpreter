@@ -86,3 +86,33 @@ emitter.on("event", (message) => {
     });
 });
 
+
+emitter.on("getSnapshot", (message) => {
+    if(!context.interpreter){
+        process.send({
+            action: "response",
+            error: "Interpreter is was not initialized. Please use the action init"
+        });
+        return;
+    }
+
+    if(!context.interpreter.hasStarted) {
+        process.send({
+            action: "response",
+            message: "successful"
+        });
+        return;
+    }
+
+    process.send({
+        action: "response",
+        snapshot: context.interpreter.sc.getSnapshot(),
+        message: "successful"
+    });
+});
+
+module.exports = {
+    getPath: function() {
+        return __dirname + "/index.js";
+    }
+};
